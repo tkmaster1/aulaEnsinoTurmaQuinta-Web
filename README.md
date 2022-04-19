@@ -1,2 +1,4 @@
 # aulaEnsinoTurmaQuinta-Web
-Projeto de Aula de ensino C# turma de quinta
+Projeto de Ensino do C# para a Turma de Quinta-Feira
+
+- Adicionado o arquivo chamado .gitignore
