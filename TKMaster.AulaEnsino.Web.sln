@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Presentation", "0 - Pre
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Application", "1 - Application", "{49DB6BE6-0B4C-49A4-B9DB-A91DB7FE7983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKMaster.AulaEnsino.Web.UI", "src\TKMaster.AulaEnsino.Web.UI\TKMaster.AulaEnsino.Web.UI.csproj", "{0D8C3DD8-730E-4C40-9EFB-32A564378723}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TKMaster.AulaEnsino.Web.UI", "src\TKMaster.AulaEnsino.Web.UI\TKMaster.AulaEnsino.Web.UI.csproj", "{0D8C3DD8-730E-4C40-9EFB-32A564378723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TKMaster.AulaEnsino.Web.UI.Application", "src\TKMaster.AulaEnsino.Web.UI.Application\TKMaster.AulaEnsino.Web.UI.Application.csproj", "{CFC38998-6AF2-445D-8B21-517C68ED0ADB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +21,17 @@ Global
 		{0D8C3DD8-730E-4C40-9EFB-32A564378723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D8C3DD8-730E-4C40-9EFB-32A564378723}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D8C3DD8-730E-4C40-9EFB-32A564378723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFC38998-6AF2-445D-8B21-517C68ED0ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFC38998-6AF2-445D-8B21-517C68ED0ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFC38998-6AF2-445D-8B21-517C68ED0ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFC38998-6AF2-445D-8B21-517C68ED0ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0D8C3DD8-730E-4C40-9EFB-32A564378723} = {B322353A-F5D7-428C-B4C7-9AA672D46B78}
+		{CFC38998-6AF2-445D-8B21-517C68ED0ADB} = {49DB6BE6-0B4C-49A4-B9DB-A91DB7FE7983}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7BB4F17-F245-4CE1-B05A-C859CDE98555}
