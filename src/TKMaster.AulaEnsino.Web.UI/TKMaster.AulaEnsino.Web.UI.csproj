@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TKMaster.AulaEnsino.Web.UI.Application\TKMaster.AulaEnsino.Web.UI.Application.csproj" />
+  </ItemGroup>
+
 </Project>

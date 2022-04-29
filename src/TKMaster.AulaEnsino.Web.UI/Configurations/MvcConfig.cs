@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using TKMaster.AulaEnsino.Web.UI.Application.BaseService;
+using TKMaster.AulaEnsino.Web.UI.Configurations.Filters;
 
 namespace TKMaster.AulaEnsino.Web.UI.Configurations
 {
@@ -15,14 +17,18 @@ namespace TKMaster.AulaEnsino.Web.UI.Configurations
                 o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
-            services.AddControllers(); // opt => opt.Filters.Add(typeof(CustomActionFilterConfig)));
+            services.AddControllers(opt => opt.Filters.Add(typeof(CustomActionFilterConfig)));
 
             services.AddRazorPages();
 
+            var appConfig = configuration.GetSection("AppSettings").Get<ApplicationConfig>();
+            services.AddSingleton(appConfig);
+            services.Configure<ApplicationConfig>(configuration.GetSection("AppSettings"));
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            //services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddHttpContextAccessor();
+            services.AddHttpContextAccessor();
 
             services.AddCors();
 

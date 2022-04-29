@@ -41,6 +41,8 @@ namespace TKMaster.AulaEnsino.Web.UI
 
             services.AddMvcConfiguration(Configuration);
 
+            services.AddDependencyInjectionConfiguration();
+
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -69,6 +71,8 @@ namespace TKMaster.AulaEnsino.Web.UI
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UseGlobalizationConfig();
 
             //app.UseMvc(routes =>
             //{

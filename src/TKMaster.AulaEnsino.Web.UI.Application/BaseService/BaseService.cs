@@ -126,9 +126,24 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.BaseService
             throw new NotImplementedException();
         }
 
-        public Task<RetornoAPIDataList<T>> MontarResponseList<T>(HttpRequestMessage request) where T : class
+        public async Task<RetornoAPIDataList<T>> MontarResponseList<T>(HttpRequestMessage request) where T : class
         {
-            throw new NotImplementedException();
+            var client = MontarHttpClient();
+            using (HttpResponseMessage response = await client.SendAsync(request))
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var retorno = JsonConvert.DeserializeObject<RetornoAPIDataList<T>>(responseBody);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    await _notification.Handle(new Notification(response?.StatusCode.ToString() ?? "500",
+                                                                response?.StatusCode.ToString() == "Unauthorized"
+                                                                ? "Unauthorized"
+                                                                : retorno?.Errors?.ToString() ?? string.Empty + " : " + request.RequestUri.AbsolutePath));
+                }
+
+                return retorno;
+            }
         }
 
         protected virtual void Dispose(bool disposing)

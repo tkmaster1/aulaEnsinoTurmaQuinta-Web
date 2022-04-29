@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>@ViewData["Title"] | Turma Quinta-feira</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -50,7 +50,10 @@
             <strong>&copy; @DateTime.Now.Year TkMaster Consultoria.</strong>
             Projeto de ensino Dot net Turma Quinta-feira.
             <div class="float-right d-none d-sm-inline-block">
-                <b>Versão</b> 1.0.0
+                @{
+                    var version = new TKMaster.AulaEnsino.Web.UI.Application.BaseService.Application().Version;
+                }
+                <b>Versão</b> @version
             </div>
         </footer>
 
