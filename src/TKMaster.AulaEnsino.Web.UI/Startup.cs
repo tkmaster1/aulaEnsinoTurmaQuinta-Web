@@ -34,6 +34,8 @@ namespace TKMaster.AulaEnsino.Web.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapperConfiguration();
+
             services.AddHttpClient();
 
             if (_env.IsDevelopment())

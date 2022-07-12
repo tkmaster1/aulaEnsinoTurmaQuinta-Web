@@ -2,6 +2,6 @@
 {
     public class RetornoAPIDataList<T> : RetornoAPI
     {
-        public List<T> Datas { get; set; }
+        public List<T> Data { get; set; }
     }
 }

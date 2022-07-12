@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TKMaster.AulaEnsino.Web.UI.Models;
+using TKMaster.AulaEnsino.Web.UI.ViewModels;
 
 namespace TKMaster.AulaEnsino.Web.UI.Controllers
 {

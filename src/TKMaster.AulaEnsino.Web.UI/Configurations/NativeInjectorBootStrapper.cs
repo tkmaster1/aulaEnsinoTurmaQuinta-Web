@@ -19,6 +19,8 @@ namespace TKMaster.AulaEnsino.Web.UI.Configurations
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<INotificationHandler<Notification>, NotificationHandler>();
 
+            services.AddTransient<IFornecedorAppService, FornecedorAppService>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
