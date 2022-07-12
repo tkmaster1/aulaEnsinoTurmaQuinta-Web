@@ -9,7 +9,7 @@ namespace TKMaster.AulaEnsino.Web.UI.Configurations.AutoMapper
         public DomainToViewModelMappingProfile()
         {
             // Fornecedor
-            CreateMap<ForcenedorDTO, FornecedorViewModel>();
+            CreateMap<FornecedorDTO, FornecedorViewModel>();
 
         }
     }

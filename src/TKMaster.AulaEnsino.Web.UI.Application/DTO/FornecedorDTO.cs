@@ -1,6 +1,6 @@
 ﻿namespace TKMaster.AulaEnsino.Web.UI.Application.DTO
 {
-    public class ForcenedorDTO
+    public class FornecedorDTO
     {
         public int? Codigo { get; set; }
 

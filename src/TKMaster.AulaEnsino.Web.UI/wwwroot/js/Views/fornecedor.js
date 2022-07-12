@@ -6,7 +6,7 @@ $(function () {
 
 $(document).ready(function () {
 
-    $("dtFornecedor").DataTable({
+    $('#dtFornecedor').DataTable({
         "columnDefs": [
             { "orderable": false, "targets": 4 },
             { "className": 'dt-center', "targets": [1, 2, 3, 4] }
@@ -48,6 +48,7 @@ $(document).ready(function () {
 });
 
 function fnFiltrarConteudo() {
+
     //var formData = new FormData(formFornecedorFiltro);
 
     //var pNomeFornecedor = "";
@@ -73,35 +74,54 @@ function fnFiltrarConteudo() {
     $.ajax({
         type: "GET",
         url: "/Fornecedor/Pesquisar",
-        //data: formData,
-        //cache: false,
-        //contentType: false,
-        //processData: false,
+      //  data: { codigo: id },
         success: function (data) {
             if (data.length != 0) {
+               // console.log(data);
                 fnMostrarConteudo(data);
             } else {
                 $('#dtFornecedor').dataTable().fnClearTable();
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            fnMensagemAlerta(xhr);
+            bootbox.alert(xhr);
+            return false;
         }
     });
+
+    //$.ajax({
+    //    type: "GET",
+    //    url: "/Fornecedor/Pesquisar",
+    //    //data: formData,
+    //    //cache: false,
+    //    //contentType: false,
+    //    //processData: false,
+    //    success: function (data) {
+    //        if (data.length != 0) {
+    //            fnMostrarConteudo(data);
+    //        } else {
+    //            $('#dtFornecedor').dataTable().fnClearTable();
+    //        }
+    //    },
+    //    error: function (xhr, ajaxOptions, thrownError) {
+    //        fnMensagemAlerta(xhr);
+    //    }
+    /* });*/
 }
 
 function fnMostrarConteudo(data) {
+
     $('#dtFornecedor').DataTable({
         bJQueryUI: true,
         data: data,
         columns: [
             { 'data': 'nome' },
-            { 'data': 'documentoo' },
+            { 'data': 'documento' },
             { 'data': 'tipoPessoa' },
             { 'data': 'status' },
             {
-                'data': '', "width": "15%",
-                //"render": function (data, type, row, meta) {
+                'data': '', "width": "15%"
+                //,"render": function (data, type, row, meta) {
                 //    var botoesGrid = "";
 
                 //    if (!row.status) {
@@ -127,11 +147,11 @@ function fnMostrarConteudo(data) {
             { "orderable": false, "targets": 4 },
             { "className": 'dt-center', "targets": [1, 2, 3, 4] }
         ],
-        "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-            if (aData['statusFormatado'] === 'Inativo') {
-                $('td', nRow).css('background-color', 'Orange');
-            }
-        },
+        //"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+        //    if (aData['statusFormatado'] === 'Inativo') {
+        //        $('td', nRow).css('background-color', 'Orange');
+        //    }
+        //},
         "searching": true,
         "language": {
             "sEmptyTable": "Nenhum registro encontrado",

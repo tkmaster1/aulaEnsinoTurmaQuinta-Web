@@ -6,9 +6,9 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Interfaces
 {
     public interface IFornecedorAppService
     {
-        Task<RetornoAPIDataList<ForcenedorDTO>> ListarTodos();
+        Task<RetornoAPIDataList<FornecedorDTO>> ListarTodos();
 
-        Task<RetornoAPIData<ForcenedorDTO>> ObterPorCodigo(int codigo);
+        Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo);
 
         Task<RetornoAPIData<object>> Adicionar(RequestAdicionarFornecedor req);
 
@@ -18,8 +18,8 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Interfaces
 
         Task<RetornoAPIData<object>> Reativar(RequestExcluirReativarFornecedor req);
 
-        Task<RetornoAPIData<ForcenedorDTO>> NomeExiste(string nomeFornecedor);
+        Task<RetornoAPIData<FornecedorDTO>> NomeExiste(string nomeFornecedor);
 
-        Task<RetornoAPIData<ForcenedorDTO>> DocumentoExiste(string documento);
+        Task<RetornoAPIData<FornecedorDTO>> DocumentoExiste(string documento);
     }
 }

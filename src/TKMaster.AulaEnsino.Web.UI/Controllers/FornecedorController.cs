@@ -44,7 +44,7 @@ namespace TKMaster.AulaEnsino.Web.UI.Controllers
             //RequestBuscarFornecedor pesquisar
             var response = await _unitOfWork.FornecedorApp.ListarTodos();
 
-            var retorno = _mapper.Map<List<FornecedorViewModel>>(response?.Data.ToList() ?? new List<ForcenedorDTO>());
+            var retorno = _mapper.Map<List<FornecedorViewModel>>(response?.Data.ToList() ?? new List<FornecedorDTO>());
 
             return Ok(retorno);
         }

@@ -40,26 +40,26 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<RetornoAPIData<ForcenedorDTO>> DocumentoExiste(string documento)
+        public Task<RetornoAPIData<FornecedorDTO>> DocumentoExiste(string documento)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<RetornoAPIDataList<ForcenedorDTO>> ListarTodos()
+        public async Task<RetornoAPIDataList<FornecedorDTO>> ListarTodos()
         {
-            string url = $"{_baseService.UrlBase}/Forcenedor/ListarTodos";
+            string url = $"{_baseService.UrlBase}/Fornecedor/ListarTodos";
 
             var request = _baseService.MontarRequest("GET", url);
 
-            return await _baseService.MontarResponseList<ForcenedorDTO>(request);
+            return await _baseService.MontarResponseList<FornecedorDTO>(request);
         }
 
-        public Task<RetornoAPIData<ForcenedorDTO>> NomeExiste(string nomeFornecedor)
+        public Task<RetornoAPIData<FornecedorDTO>> NomeExiste(string nomeFornecedor)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RetornoAPIData<ForcenedorDTO>> ObterPorCodigo(int codigo)
+        public Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo)
         {
             throw new NotImplementedException();
         }
