@@ -10,9 +10,9 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Interfaces
 
         Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo);
 
-        Task<RetornoAPIData<object>> Adicionar(RequestAdicionarFornecedor req);
+        Task<RetornoAPIData<object>> Adicionar(RequestFornecedor req);
 
-        Task<RetornoAPIData<object>> Atualizar(RequestAtualizarFornecedor req);
+        Task<RetornoAPIData<object>> Atualizar(RequestFornecedor req);
 
         Task<RetornoAPIData<object>> Deletar(RequestExcluirReativarFornecedor req);
 

@@ -25,14 +25,22 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
 
         #region Methods
 
-        public Task<RetornoAPIData<object>> Adicionar(RequestAdicionarFornecedor req)
+        public async Task<RetornoAPIData<object>> Adicionar(RequestFornecedor req)
         {
-            throw new NotImplementedException();
+            string url = $"{_baseService.UrlBase}/Fornecedor/Adicionar/";
+
+            var request = _baseService.MontarRequest("POST", url, req);
+
+            return await _baseService.MontarResponse<object>(request);
         }
 
-        public Task<RetornoAPIData<object>> Atualizar(RequestAtualizarFornecedor req)
+        public async Task<RetornoAPIData<object>> Atualizar(RequestFornecedor requestAtualizar)
         {
-            throw new NotImplementedException();
+            string url = $"{_baseService.UrlBase}/Fornecedor/Alterar/";
+
+            var request = _baseService.MontarRequest("PUT", url, requestAtualizar);
+
+            return await _baseService.MontarResponse<object>(request);
         }
 
         public Task<RetornoAPIData<object>> Deletar(RequestExcluirReativarFornecedor req)
@@ -40,9 +48,24 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<RetornoAPIData<FornecedorDTO>> DocumentoExiste(string documento)
+        public async Task<RetornoAPIData<FornecedorDTO>> NomeExiste(string nomeFornecedor)
         {
-            throw new NotImplementedException();
+            string url = $"{_baseService.UrlBase}/Fornecedor/NomeExiste/{nomeFornecedor}";
+
+            var request = _baseService.MontarRequest("GET", url);
+
+            return await _baseService.MontarResponse<FornecedorDTO>(request);
+        }
+
+        public async Task<RetornoAPIData<FornecedorDTO>> DocumentoExiste(string documento)
+        {
+            string url = $"{_baseService.UrlBase}/Fornecedor/DocumentoExiste/{documento}";
+
+            var request = _baseService.MontarRequest("GET", url);
+
+            var response = await _baseService.MontarResponse<FornecedorDTO>(request);
+
+            return response;
         }
 
         public async Task<RetornoAPIDataList<FornecedorDTO>> ListarTodos()
@@ -52,11 +75,6 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             var request = _baseService.MontarRequest("GET", url);
 
             return await _baseService.MontarResponseList<FornecedorDTO>(request);
-        }
-
-        public Task<RetornoAPIData<FornecedorDTO>> NomeExiste(string nomeFornecedor)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo)

@@ -10,5 +10,14 @@
                 {1, "Ativo" }
             };
         }
+
+        public static Dictionary<string, string> PopularComboTipoPessoa()
+        {
+            return new Dictionary<string, string>
+            {
+                {"f", "Pessoa Física"},
+                {"j", "Pessoa Jurídica"}
+            };
+        }
     }
 }

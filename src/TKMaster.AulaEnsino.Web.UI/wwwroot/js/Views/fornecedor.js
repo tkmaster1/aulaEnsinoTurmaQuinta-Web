@@ -39,10 +39,9 @@ $(document).ready(function () {
 
     $('#btnCreateFornecedor').on('click', function () {
 
-        bootbox.alert('Entrou aqui');
-        //$("#modalAluno").load("/Aluno/Create", function () {
-        //    $("#modalAluno").modal({ backdrop: 'static', keyboard: false });
-        //});
+        $("#modalFornecedor").load("/Fornecedor/Create", function () {
+            $("#modalFornecedor").modal({ backdrop: 'static', keyboard: false });
+        });
     });
 
 });
@@ -74,10 +73,10 @@ function fnFiltrarConteudo() {
     $.ajax({
         type: "GET",
         url: "/Fornecedor/Pesquisar",
-      //  data: { codigo: id },
+        //  data: { codigo: id },
         success: function (data) {
             if (data.length != 0) {
-               // console.log(data);
+                // console.log(data);
                 fnMostrarConteudo(data);
             } else {
                 $('#dtFornecedor').dataTable().fnClearTable();

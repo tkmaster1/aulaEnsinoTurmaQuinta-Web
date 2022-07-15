@@ -1,0 +1,161 @@
+﻿@model FornecedorViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Inclusão de Fornecedor";
+}
+
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header alert alert-success">
+            <h5 class="modal-title">@ViewData["Title"]</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form asp-action="Create" asp-controller="Fornecedor" id="formFornecedorCreate">
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <h4><i class="fas fa-file"></i> Dados do Fornecedor</h4>
+                    <hr />
+                    <div class="row form-group">
+                        <div class="col-12">
+                            <label asp-for="Nome"></label> <b class="obrigatorio">*</b>
+                            <div class="col-md-12">
+                                <input asp-for="Nome" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"><br /></div>
+                    <div class="row form-group">
+                        <div class="col-7">
+                            <label asp-for="Documento"></label> <b class="obrigatorio">*</b>
+                            <div class="col-md-12">
+                                <input asp-for="Documento" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <label asp-for="TipoPessoa"></label><b class="obrigatorio">*</b>
+                            <div class="col-md-12">
+                                <select asp-for="TipoPessoa" asp-items="@(new SelectList(ViewBag.TipoPessoa, "Key", "Value"))" class="form-control">
+                                    <option value="">- Selecione -</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="SalvarDadosFornecedor()">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('#TipoPessoa').select2();
+    });
+
+    function fnValidarCamposFornecedor() {
+        // Todos os campos
+        if (($('#TipoPessoa option:selected').val() == "- Selecione -" ||
+            $('#TipoPessoa option:selected').val() == "" ||
+            $('#TipoPessoa option:selected').val() == null) &&
+            ($('#Nome').val() == "") &&
+            ($('#Documento').val() == "")
+        ) {
+            mensagensErros("O campo Nome é obrigatório!", "O campo CPF/CNPJ é obrigatório!", "O Campo Tipo Pessoa é obrigatório!");
+            return false;
+        }
+
+        if (($('#TipoPessoa option:selected').val() == "0" ||
+            $('#TipoPessoa option:selected').val() == "" ||
+            $('#TipoPessoa option:selected').val() == null)) {
+
+            mensagensErros("O Campo Tipo Pessoa é obrigatório!", "", "");
+            return false;
+        }
+
+        if ($('#Nome').val() == "") {
+            mensagensErros("O campo Nome é obrigatório!", "", "");
+            return false;
+        }
+
+        if ($('#Documento').val() == "") {
+            mensagensErros("", "O campo CPF/CNPJ é obrigatório!", "");
+            return false;
+        }
+
+        if (($('#TipoPessoa option:selected').val() == "f" && $('#Documento').val().length > 14) ||
+            ($('#TipoPessoa option:selected').val() == "j" && $('#Documento').val().length < 18)) {
+            mensagensErros("O Campo CPF/CNPJ não corresponde com o Tipo Pessoa", "", "");
+            return false;
+        }
+
+        return true;
+    }
+
+    function SalvarDadosFornecedor() {
+        //  this.voltarModalAnterior = "ModalNovo";
+        $("#btnSalvarConfirmacao").attr("onclick", "Salvar()");
+        $("#modalConfirmacaoSalvar").modal({ backdrop: 'static', keyboard: false });
+    }
+
+    function Salvar() {
+
+        if (fnValidarCamposFornecedor()) {
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Create", "Fornecedor")',
+                data: $('#formFornecedorCreate').serialize(),
+                success: function(result) {
+                    if (result.success) {
+                        $("#modalConfirmacaoSalvar").modal('hide');
+                        $('#modalFornecedor').modal('hide');
+                        bootbox.alert(result.mensagem);
+                        fnFiltrarConteudo();
+                    } else {
+                        mensagensErros(result.mensagem, "", "");
+                        return false;
+                    }
+                },
+                error: function(errormessage) {
+                    bootbox.alert('O servidor não pôde processar a solicitação!');
+                    return false;
+                }
+            });
+        }
+    }
+
+    // modal Mensagens
+    function mensagensErros(validNome, validTipoPessoa, validDocumento) {
+        //  $('.img-loader').css("display", "none");
+        $('.mensagemRetorno').empty();
+        $('#tituloModalRetorno').text("Alerta: Cadastro de Fornecedor");
+        $('.mensagemRetorno').append('<p>Foram encontrados os seguintes erros ao salvar:</p>');
+        $('.mensagemRetorno').append('<ul id="listaErros"></ul>');
+
+        if (validTipoPessoa !== "") {
+            $('#listaErros').append('<li>' + validTipoPessoa + '</li>');
+        }
+
+        if (validDocumento !== "") {
+            $('#listaErros').append('<li>' + validDocumento + '</li>');
+        }
+
+        if (validNome !== "") {
+            $('#listaErros').append('<li>' + validNome + '</li>');
+        }
+
+        $("#modalConfirmacaoSalvar").modal('hide');
+        $("#modalRetorno").modal({ backdrop: 'static', keyboard: false });
+        $("#btnSalvarModalNovo").removeAttr("disabled");
+        $("#btnCancelarModalNovo").removeAttr("disabled");
+    }
+
+</script>

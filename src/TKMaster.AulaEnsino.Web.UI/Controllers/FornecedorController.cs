@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TKMaster.AulaEnsino.Web.UI.Application.DTO;
 using TKMaster.AulaEnsino.Web.UI.Application.Interfaces;
 using TKMaster.AulaEnsino.Web.UI.Application.Request.Fornecedor;
+using TKMaster.AulaEnsino.Web.UI.Util;
 using TKMaster.AulaEnsino.Web.UI.ViewModels;
 
 namespace TKMaster.AulaEnsino.Web.UI.Controllers
@@ -30,8 +31,65 @@ namespace TKMaster.AulaEnsino.Web.UI.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.TipoPessoa = Util.Common.PopularComboSituacaoStatus().OrderBy(x => x.Value);
+            ViewBag.TipoPessoa = Util.Common.PopularComboTipoPessoa().OrderBy(x => x.Value);
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewBag.TipoPessoa = Util.Common.PopularComboTipoPessoa().OrderBy(x => x.Value);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(FornecedorViewModel fornecedor)
+        {
+            string Mensagem;
+
+            var nomeExiste = await _unitOfWork.FornecedorApp.NomeExiste(fornecedor.Nome);
+            if (nomeExiste.Data != null)
+            {
+                Mensagem = Mensagens.MSG_NOME_FORNECEDOR.ToFormat(fornecedor.Nome);
+                return Json(new { success = false, mensagem = Mensagem });
+            }
+
+            if (!string.IsNullOrEmpty(fornecedor.Documento))
+            {
+                var cpfcnpj = ValidarCPFCNPJ(ValidationCPFCNPJ.SemFormatacaoCPFCNPJ(fornecedor.Documento));
+
+                if (!string.IsNullOrEmpty(cpfcnpj))
+                {
+                    return Json(new { success = false, mensagem = cpfcnpj });
+                }
+                else
+                {
+                    cpfcnpj = ValidationCPFCNPJ.SemFormatacaoCPFCNPJ(fornecedor.Documento);
+                    var documentoExiste = await _unitOfWork.FornecedorApp.DocumentoExiste(cpfcnpj);
+                    if (documentoExiste.Data != null)
+                    {
+                        Mensagem = Mensagens.MSG_DOCUMENTO_FORNECEDOR.ToFormat(fornecedor.Documento);
+                        return Json(new { success = false, mensagem = Mensagem });
+                    }
+
+                    fornecedor.Documento = cpfcnpj;
+                }
+            }
+            else
+            {
+                Mensagem = "CPF / CNPJ não pode ser vazio.";
+                return Json(new { success = false, mensagem = Mensagem });
+            }
+
+            var fornecedorDomain = _mapper.Map<FornecedorViewModel, RequestFornecedor>(fornecedor);
+            var response = await _unitOfWork.FornecedorApp.Adicionar(fornecedorDomain);
+
+            Mensagem = response?.Data.ToString().Length <= 0
+               ? Mensagens.MSG_FALHA.ToFormat("Incluir", "o Fornecedor")
+               : Mensagens.MSG_SUCESSO.ToFormat("realizada", "Inclusão");
+
+            return Json(new { success = true, mensagem = Mensagem });
         }
 
         #endregion
@@ -52,6 +110,22 @@ namespace TKMaster.AulaEnsino.Web.UI.Controllers
         #endregion
 
         #region Private Methods
+
+        private static string ValidarCPFCNPJ(string cpfcnpj)
+        {
+            if (cpfcnpj.Length == 11)
+            {
+                if (!ValidationCPFCNPJ.ValidaCPF(cpfcnpj))
+                    return Mensagens.MSG_VALIDARCPFCNPJ_FALHA.ToFormat("CPF");
+            }
+            else
+            {
+                if (!ValidationCPFCNPJ.ValidaCNPJ(cpfcnpj))
+                    return Mensagens.MSG_VALIDARCPFCNPJ_FALHA.ToFormat("CNPJ");
+            }
+
+            return string.Empty;
+        }
 
         #endregion
     }

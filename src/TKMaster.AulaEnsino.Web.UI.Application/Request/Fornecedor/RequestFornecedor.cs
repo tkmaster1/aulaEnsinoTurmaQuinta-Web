@@ -1,7 +1,9 @@
 ﻿namespace TKMaster.AulaEnsino.Web.UI.Application.Request.Fornecedor
 {
-    public class RequestAdicionarFornecedor
+    public class RequestFornecedor
     {
+        public int? Codigo { get; set; }
+
         public string Nome { get; set; }
 
         public string Documento { get; set; }
