@@ -1,5 +1,12 @@
 ﻿/* Arquivo .js que contém todas funções necessárias para a página de Fornecedor */
 
+$.fn.modal.Constructor.prototype.enforceFocus = function () { };
+
+//Faz com que o Scroll do modal volte após clicar em fechar
+$(document).ready(function () {
+    $('.modal').css('overflow-y', 'auto');
+});
+
 $(function () {
     $('#cboTipoPessoa').select2();
 });
@@ -40,6 +47,16 @@ $(document).ready(function () {
     $('#btnCreateFornecedor').on('click', function () {
 
         $("#modalFornecedor").load("/Fornecedor/Create", function () {
+            $("#modalFornecedor").modal({ backdrop: 'static', keyboard: false });
+        });
+    });
+
+    $(document).on('click', '.btnEditarFornecedor', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+
+        $("#modalFornecedor").load("/Fornecedor/Edit?id=" + id, function () {
             $("#modalFornecedor").modal({ backdrop: 'static', keyboard: false });
         });
     });
@@ -115,30 +132,30 @@ function fnMostrarConteudo(data) {
         data: data,
         columns: [
             { 'data': 'nome' },
-            { 'data': 'documento' },
-            { 'data': 'tipoPessoa' },
-            { 'data': 'status' },
+            { 'data': 'documentoFormatado' },
+            { 'data': 'tipoPessoaFormatado' },
+            { 'data': 'statusFormatado' },
             {
-                'data': '', "width": "15%"
-                //,"render": function (data, type, row, meta) {
-                //    var botoesGrid = "";
+                'data': '', "width": "15%",
+                "render": function (data, type, row, meta) {
+                    var botoesGrid = "";
 
-                //    if (!row.status) {
+                    if (!row.status) {
 
-                //        botoesGrid += ("<button type='button' class='btn btn-info btn-sm btnDetalheFornecedor' id='btnDetalheFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-search' data-toggle='tooltip' title='Detalhe'></i></button>" +
-                //            "&nbsp;<button type=\"button\" class=\"btn btn-warning btn-sm btnReativarFornecedor\" data-id=" + row.codigo + " data-nome='" + row.nome +
-                //            "' data-toggle=\"modal\"><i class=\"fa fa-refresh fa-spin\" data-toggle=\"tooltip\" title=\"Reativar\"></i></button>");
+                        botoesGrid += ("<button type='button' class='btn btn-info btn-sm btnDetalheFornecedor' id='btnDetalheFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-search' data-toggle='tooltip' title='Detalhe'></i></button>" +
+                            "&nbsp;<button type=\"button\" class=\"btn btn-warning btn-sm btnReativarFornecedor\" data-id=" + row.codigo + " data-nome='" + row.nome +
+                            "' data-toggle=\"modal\"><i class=\"fa fa-refresh fa-spin\" data-toggle=\"tooltip\" title=\"Reativar\"></i></button>");
 
-                //    } else {
+                    } else {
 
-                //        botoesGrid += ("<button type='button' class='btn btn-info btn-sm btnDetalheFornecedor' id='btnDetalheFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-search' data-toggle='tooltip' title='Detalhe'></i></button>" +
-                //            "&nbsp;<button type='button' class='btn btn-primary btn-sm btnEditarFornecedor' id='btnEditarFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-edit' data-toggle='tooltip' title='Editar'></i></button>" +
-                //            "&nbsp;<button type='button' class='btn btn-danger btn-sm btnDeleteFornecedor' data-id=" + row.codigo + " data-nome='" + row.nome + "' data-toggle='modal'><i class='fa fa-trash' data-toggle='tooltip' title='Excluir'></i></button>");
+                        botoesGrid += ("<button type='button' class='btn btn-info btn-sm btnDetalheFornecedor' id='btnDetalheFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-search' data-toggle='tooltip' title='Detalhe'></i></button>" +
+                            "&nbsp;<button type='button' class='btn btn-primary btn-sm btnEditarFornecedor' id='btnEditarFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-edit' data-toggle='tooltip' title='Editar'></i></button>" +
+                            "&nbsp;<button type='button' class='btn btn-danger btn-sm btnDeleteFornecedor' data-id=" + row.codigo + " data-nome='" + row.nome + "' data-toggle='modal'><i class='fa fa-trash' data-toggle='tooltip' title='Excluir'></i></button>");
 
-                //    }
+                    }
 
-                //    return botoesGrid;
-                //}
+                    return botoesGrid;
+                }
             }
         ],
         deferRender: true,
@@ -146,11 +163,11 @@ function fnMostrarConteudo(data) {
             { "orderable": false, "targets": 4 },
             { "className": 'dt-center', "targets": [1, 2, 3, 4] }
         ],
-        //"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-        //    if (aData['statusFormatado'] === 'Inativo') {
-        //        $('td', nRow).css('background-color', 'Orange');
-        //    }
-        //},
+        "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            if (aData['status'] === 'false') {
+                $('td', nRow).css('background-color', 'Orange');
+            }
+        },
         "searching": true,
         "language": {
             "sEmptyTable": "Nenhum registro encontrado",

@@ -1,4 +1,4 @@
-﻿namespace TKMaster.AulaEnsino.Web.UI.Util
+﻿namespace TKMaster.AulaEnsino.Web.UI.Util.Extensions
 {
     public static class StringExtensions
     {

@@ -36,7 +36,7 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
 
         public async Task<RetornoAPIData<object>> Atualizar(RequestFornecedor requestAtualizar)
         {
-            string url = $"{_baseService.UrlBase}/Fornecedor/Alterar/";
+            string url = $"{_baseService.UrlBase}/Fornecedor/Atualizar/";
 
             var request = _baseService.MontarRequest("PUT", url, requestAtualizar);
 
@@ -77,9 +77,13 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             return await _baseService.MontarResponseList<FornecedorDTO>(request);
         }
 
-        public Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo)
+        public async Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo)
         {
-            throw new NotImplementedException();
+            string url = $"{_baseService.UrlBase}/Fornecedor/ObterPorCodigo/{codigo}";
+
+            var request = _baseService.MontarRequest("GET", url);
+
+            return await _baseService.MontarResponse<FornecedorDTO>(request);
         }
 
         public Task<RetornoAPIData<object>> Reativar(RequestExcluirReativarFornecedor req)

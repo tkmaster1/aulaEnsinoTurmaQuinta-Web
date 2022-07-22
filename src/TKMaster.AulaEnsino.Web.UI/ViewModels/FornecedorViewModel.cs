@@ -33,37 +33,36 @@ namespace TKMaster.AulaEnsino.Web.UI.ViewModels
         //public string StatusPesquisa { get; set; }
 
         //[NotMapped]
-        //public string DocumentoFormatado
-        //{
-        //    get
-        //    {
-        //        if (!string.IsNullOrEmpty(Documento))
-        //        {
-        //            var doc = Util.ValidationCPFCNPJ.SemFormatacaoCPFCNPJ(Documento);
+        public string DocumentoFormatado
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Documento))
+                {
+                    var doc = Util.ValidationCPFCNPJ.SemFormatacaoCPFCNPJ(Documento);
 
-        //            return Util.Extensions.FormatacoesExtensions.FormataDocumento(TipoPessoa, doc);
-        //        }
+                    return Util.Extensions.FormatacoesExtensions.FormataDocumento(TipoPessoa, doc);
+                }
 
-        //        return string.Empty;
-        //    }
-        //}
+                return string.Empty;
+            }
+        }
+
+        public string StatusFormatado
+        {
+            get
+            {
+                return Util.Extensions.FormatacoesExtensions.FormataStatus(Status);
+            }
+        }
 
         //[NotMapped]
-        //public string StatusFormatado
-        //{
-        //    get
-        //    {
-        //        return Util.Extensions.FormatacoesExtensions.FormataStatus(Status);
-        //    }
-        //}
-
-        //[NotMapped]
-        //public string TipoPessoaFormatado
-        //{
-        //    get
-        //    {
-        //        return Util.Extensions.FormatacoesExtensions.FormataTipoPessoa(TipoPessoa);
-        //    }
-        //}
+        public string TipoPessoaFormatado
+        {
+            get
+            {
+                return Util.Extensions.FormatacoesExtensions.FormataTipoPessoa(TipoPessoa);
+            }
+        }
     }
 }
