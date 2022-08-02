@@ -61,6 +61,92 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('click', '.btnDetalheFornecedor', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+
+        $("#modalFornecedor").load("/Fornecedor/Detalhe?id=" + id, function () {
+            $("#modalFornecedor").modal({ backdrop: 'static', keyboard: false });
+        });
+    });
+
+    $(document).on('click', '.btnExcluirFornecedor', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+        var nome = $(this).data('nome');
+        var msg = "<p class='success-message'>Deseja excluir realmente este Fornecedor: <b>" + nome + "</b>?</p>";
+        var codHidden = "<input type='hidden' id='hdCodigoFornecedor' value=\"" + id + "\"/>";
+
+        $('#dvCodigo').html(codHidden);
+        $('#modal-body-Fornecedor').html(msg);
+        $("#modalExcluirFornecedor").modal({ backdrop: 'static', keyboard: false });
+
+        $(document).on('click', '.delete-confirm', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'GET',
+                url: '/Fornecedor/Excluir',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        $("#modalExcluirFornecedor").modal('hide');
+                        bootbox.alert(result.mensagem);
+                        fnFiltrarConteudo();
+                    } else {
+                        $('#modalExcluirFornecedor').html(result.mensagem);
+                        return false;
+                    }
+                },
+                error: function (er) {
+                    bootbox.alert(er);
+                    return false;
+                }
+            });
+        });
+
+    });
+
+    $(document).on('click', '.btnReativarFornecedor', function (e) {
+        e.preventDefault();
+
+        var id = $(this).data('id');
+        var nome = $(this).data('nome');
+        var msgReativar = "<p class='success-message'>Deseja reativar realmente este Fornecedor: <b>" + nome + "</b>?</p>";
+        var codReativarHidden = "<input type='hidden' id='hdCodigoReativarFornecedor' value=\"" + id + "\"/>";
+
+        $('#dvCodigoReativarFornecedor').html(codReativarHidden);
+        $('#modal-body-ReativarFornecedor').html(msgReativar);
+        $("#modalReativarFornecedor").modal({ backdrop: 'static', keyboard: false });
+
+        $(document).on('click', '.reativar-confirm', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'GET',
+                url: '/Fornecedor/Reativar',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        $("#modalReativarFornecedor").modal('hide');
+                        bootbox.alert(result.mensagem);
+                        fnFiltrarConteudo();
+                    } else {
+                        $('#modalReativarFornecedor').html(result.mensagem);
+                        return false;
+                    }
+                },
+                error: function (er) {
+                    bootbox.alert(er);
+                    return false;
+                }
+            });
+        });
+
+    });
+
 });
 
 function fnFiltrarConteudo() {
@@ -150,7 +236,7 @@ function fnMostrarConteudo(data) {
 
                         botoesGrid += ("<button type='button' class='btn btn-info btn-sm btnDetalheFornecedor' id='btnDetalheFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-search' data-toggle='tooltip' title='Detalhe'></i></button>" +
                             "&nbsp;<button type='button' class='btn btn-primary btn-sm btnEditarFornecedor' id='btnEditarFornecedor' data-id=" + row.codigo + " data-toggle='modal'><i class='fa fa-edit' data-toggle='tooltip' title='Editar'></i></button>" +
-                            "&nbsp;<button type='button' class='btn btn-danger btn-sm btnDeleteFornecedor' data-id=" + row.codigo + " data-nome='" + row.nome + "' data-toggle='modal'><i class='fa fa-trash' data-toggle='tooltip' title='Excluir'></i></button>");
+                            "&nbsp;<button type='button' class='btn btn-danger btn-sm btnExcluirFornecedor' data-id=" + row.codigo + " data-nome='" + row.nome + "' data-toggle='modal'><i class='fa fa-trash' data-toggle='tooltip' title='Excluir'></i></button>");
 
                     }
 

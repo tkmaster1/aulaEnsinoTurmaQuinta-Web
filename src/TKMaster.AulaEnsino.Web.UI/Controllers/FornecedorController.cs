@@ -134,6 +134,51 @@ namespace TKMaster.AulaEnsino.Web.UI.Controllers
             return Json(new { success = true, mensagem = Mensagem });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Detalhe(int id)
+        {
+            var fornecedor = await ObterFornecedor(id);
+            if (fornecedor == null) { return NotFound(); }
+
+            return View(fornecedor);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Excluir(int id)
+        {
+            string Mensagem;
+            var response = await _unitOfWork.FornecedorApp.Deletar(
+                new RequestExcluirReativarFornecedor()
+                {
+                    Codigo = id
+                });
+
+            if (!(bool)response.Data)
+                Mensagem = Mensagens.MSG_FALHA.ToFormat("excluir", "o Fornecedor");
+            else
+                Mensagem = Mensagens.MSG_SUCESSO.ToFormat("excluído", "Fornecedor");
+
+            return Json(new { success = true, mensagem = Mensagem });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Reativar(int id)
+        {
+            string Mensagem;
+            var response = await _unitOfWork.FornecedorApp.Reativar(
+                new RequestExcluirReativarFornecedor()
+                {
+                    Codigo = id
+                });
+
+            if (!(bool)response.Data)
+                Mensagem = Mensagens.MSG_FALHA.ToFormat("reativar", "o Fornecedor");
+            else
+                Mensagem = Mensagens.MSG_SUCESSO.ToFormat("reativado", "Fornecedor");
+
+            return Json(new { success = true, mensagem = Mensagem });
+        }
+
         #endregion
 
         #region Public Methods

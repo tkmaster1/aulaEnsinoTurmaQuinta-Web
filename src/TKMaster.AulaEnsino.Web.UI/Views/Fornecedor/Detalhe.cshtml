@@ -1,0 +1,68 @@
+﻿@model FornecedorViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Detalhe do Fornecedor";
+}
+
+<script>
+    $("input[id*='Documento']").inputmask({
+        mask: ['999.999.999-99', '99.999.999/9999-99'],
+        keepStatic: true
+    });
+</script>
+
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header alert alert-info">
+            <h5 class="modal-title"><i class="fa fa-search"></i> @ViewData["Title"]</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="formDetalheFornecedor">
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <h4><i class="fa fa-eye"></i> Dados do Fornecedor</h4>
+                    <hr />
+                    <div class="row form-group">
+                        <div class="col-12">
+                            <label asp-for="Nome"></label>
+                            <div class="col-md-12">
+                                <input asp-for="Nome" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"><br /></div>
+                    <div class="row form-group">
+                        <div class="col-7">
+                            <label asp-for="Documento"></label>
+                            <div class="col-md-12">
+                                <input asp-for="Documento" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <label asp-for="TipoPessoa"></label>
+                            <div class="col-md-12">
+                                <select asp-for="TipoPessoa" asp-items="@(new SelectList(Model.ListaTipoPessoa, "Key", "Value"))" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $('#formDetalheFornecedor :input').prop('disabled', 'disabled');
+    });
+
+</script>

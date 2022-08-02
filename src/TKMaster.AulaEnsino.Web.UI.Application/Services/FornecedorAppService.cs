@@ -43,9 +43,22 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             return await _baseService.MontarResponse<object>(request);
         }
 
-        public Task<RetornoAPIData<object>> Deletar(RequestExcluirReativarFornecedor req)
+        public async Task<RetornoAPIData<object>> Deletar(RequestExcluirReativarFornecedor req)
         {
-            throw new NotImplementedException();
+            string url = $"{_baseService.UrlBase}/Fornecedor/Excluir/";
+
+            var request = _baseService.MontarRequest("PUT", url, req);
+
+            return await _baseService.MontarResponse<object>(request);
+        }
+
+        public async Task<RetornoAPIData<object>> Reativar(RequestExcluirReativarFornecedor req)
+        {
+            string url = $"{_baseService.UrlBase}/Fornecedor/Reativar/";
+
+            var request = _baseService.MontarRequest("PUT", url, req);
+
+            return await _baseService.MontarResponse<object>(request);
         }
 
         public async Task<RetornoAPIData<FornecedorDTO>> NomeExiste(string nomeFornecedor)
@@ -84,11 +97,6 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             var request = _baseService.MontarRequest("GET", url);
 
             return await _baseService.MontarResponse<FornecedorDTO>(request);
-        }
-
-        public Task<RetornoAPIData<object>> Reativar(RequestExcluirReativarFornecedor req)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
