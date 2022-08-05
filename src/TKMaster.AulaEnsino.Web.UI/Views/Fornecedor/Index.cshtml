@@ -58,16 +58,23 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label style="font-weight: bold;">CPF / CNPJ</label>
-                                <input type="text" id="iptCPFCNPJ" placeholder="CPF / CNPJ" class="form-control" style="width: 100% !important;" />
+                                <input type="text" id="iptDocumento" placeholder="CPF / CNPJ" class="form-control" style="width: 100% !important;" />
                                 <!-- /.form-group -->
                             </div>
                             <!-- /.col -->
                         </div>
-                        <div class="col-md-2">&nbsp;</div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label style="font-weight: bold;">Tipo Pessoa</label>
                                 <select class="form-control" style="width: 100% !important;" id="cboTipoPessoa" asp-items="@(new SelectList(ViewBag.TipoPessoa, "Key", "Value"))">
+                                    <option value=""> -- Selecione -- </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label style="font-weight: bold;">Status</label>
+                                <select class="form-control" style="width: 100% !important;" id="cboSituacaoStatus" asp-items="@(new SelectList(ViewBag.SituacaoStatus, "Key", "Value"))">
                                     <option value=""> -- Selecione -- </option>
                                 </select>
                             </div>

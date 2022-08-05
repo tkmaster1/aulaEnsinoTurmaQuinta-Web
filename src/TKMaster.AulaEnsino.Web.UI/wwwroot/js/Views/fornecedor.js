@@ -9,6 +9,7 @@ $(document).ready(function () {
 
 $(function () {
     $('#cboTipoPessoa').select2();
+    $('#cboSituacaoStatus').select2();
 });
 
 $(document).ready(function () {
@@ -45,7 +46,6 @@ $(document).ready(function () {
     });
 
     $('#btnCreateFornecedor').on('click', function () {
-
         $("#modalFornecedor").load("/Fornecedor/Create", function () {
             $("#modalFornecedor").modal({ backdrop: 'static', keyboard: false });
         });
@@ -151,64 +151,54 @@ $(document).ready(function () {
 
 function fnFiltrarConteudo() {
 
-    //var formData = new FormData(formFornecedorFiltro);
+    var formData = new FormData(formFornecedorFiltro);
 
-    //var pNomeFornecedor = "";
-    //if (!($('#iptNome').val() == null || $('#iptNome').val() == "")) {
-    //    pNomeFornecedor = $('#iptNome').val();
-    //}
-    //formData.append('Nome', pNomeFornecedor);
+    var pNomeFornecedor = "";
+    if (!($('#iptNome').val() == null || $('#iptNome').val() == "")) {
+        pNomeFornecedor = $('#iptNome').val();
+    }
+    formData.append('Nome', pNomeFornecedor);
 
-    //var pDocumento = "";
-    //if (!($('#iptCPFCNPJ').val() == null || $('#iptCPFCNPJ').val() == "")) {
-    //    pDocumento = $('#iptCPFCNPJ').val();
-    //}
-    //formData.append('Documento', pDocumento);
+    var pDocumento = "";
+    if (!($('#iptDocumento').val() == null || $('#iptDocumento').val() == "")) {
+        pDocumento = $('#iptDocumento').val();
+    }
+    formData.append('Documento', pDocumento);
 
-    //var pTipoPessoa = "";
-    //if (!($('#cboTipoPessoa option:selected').val() == "0" ||
-    //    $('#cboTipoPessoa option:selected').val() == "" ||
-    //    $('#cboTipoPessoa option:selected').val() == null)) {
-    //    pTipoPessoa = $('#cboTipoPessoa option:selected').val();
-    //}
-    //formData.append('TipoPessoa', pTipoPessoa);
+    var pTipoPessoa = "";
+    if (!($('#cboTipoPessoa option:selected').val() == "-- Selecione --" ||
+        $('#cboTipoPessoa option:selected').val() == "" ||
+        $('#cboTipoPessoa option:selected').val() == null)) {
+        pTipoPessoa = $('#cboTipoPessoa option:selected').val();
+    }
+    formData.append('TipoPessoa', pTipoPessoa);
+
+    var pSituacaoStatus = "";
+    if (!($('#cboSituacaoStatus option:selected').val() == "-- Selecione --" ||
+        $('#cboSituacaoStatus option:selected').val() == "" ||
+        $('#cboSituacaoStatus option:selected').val() == null)) {
+        pSituacaoStatus = $('#cboSituacaoStatus option:selected').val();
+    }
+    formData.append('StatusPesquisa', pSituacaoStatus);
 
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/Fornecedor/Pesquisar",
-        //  data: { codigo: id },
-        success: function (data) {
-            if (data.length != 0) {
-                // console.log(data);
-                fnMostrarConteudo(data);
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (result) {
+            if (result.length != 0) {
+                fnMostrarConteudo(result);
             } else {
                 $('#dtFornecedor').dataTable().fnClearTable();
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            bootbox.alert(xhr);
-            return false;
+            fnMensagemAlerta(xhr);
         }
     });
-
-    //$.ajax({
-    //    type: "GET",
-    //    url: "/Fornecedor/Pesquisar",
-    //    //data: formData,
-    //    //cache: false,
-    //    //contentType: false,
-    //    //processData: false,
-    //    success: function (data) {
-    //        if (data.length != 0) {
-    //            fnMostrarConteudo(data);
-    //        } else {
-    //            $('#dtFornecedor').dataTable().fnClearTable();
-    //        }
-    //    },
-    //    error: function (xhr, ajaxOptions, thrownError) {
-    //        fnMensagemAlerta(xhr);
-    //    }
-    /* });*/
 }
 
 function fnMostrarConteudo(data) {
@@ -281,4 +271,12 @@ function fnMostrarConteudo(data) {
         "bDestroy": true
     });
 
+}
+
+function fnLimparCampos() {
+    $('#iptNome').val('');
+    $('#iptDocumento').val('');
+    $('#cboTipoPessoa').val('0').change();
+    $('#cboSituacaoStatus').val('').change();
+    $('#dtFornecedor').dataTable().fnClearTable();
 }

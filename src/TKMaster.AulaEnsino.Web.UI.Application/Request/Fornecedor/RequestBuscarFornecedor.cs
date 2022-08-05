@@ -2,8 +2,6 @@
 {
     public class RequestBuscarFornecedor
     {
-        public int? Codigo { get; set; }
-
         public string Nome { get; set; }
 
         public string Documento { get; set; }

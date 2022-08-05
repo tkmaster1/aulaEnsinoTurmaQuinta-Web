@@ -99,6 +99,15 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Services
             return await _baseService.MontarResponse<FornecedorDTO>(request);
         }
 
+        public async Task<RetornoAPIDataList<FornecedorDTO>> BuscarFornecedores(RequestBuscarFornecedor requestBuscar)
+        {
+            string url = $"{_baseService.UrlBase}/Fornecedor/BuscarFornecedores";
+
+            var request = _baseService.MontarRequest("POST", url, requestBuscar);
+
+            return await _baseService.MontarResponseList<FornecedorDTO>(request);
+        }
+
         #endregion
     }
 }

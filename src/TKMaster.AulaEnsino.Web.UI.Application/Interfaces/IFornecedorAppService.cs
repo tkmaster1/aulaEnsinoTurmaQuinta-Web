@@ -8,6 +8,8 @@ namespace TKMaster.AulaEnsino.Web.UI.Application.Interfaces
     {
         Task<RetornoAPIDataList<FornecedorDTO>> ListarTodos();
 
+        Task<RetornoAPIDataList<FornecedorDTO>> BuscarFornecedores(RequestBuscarFornecedor request);
+
         Task<RetornoAPIData<FornecedorDTO>> ObterPorCodigo(int codigo);
 
         Task<RetornoAPIData<object>> Adicionar(RequestFornecedor req);

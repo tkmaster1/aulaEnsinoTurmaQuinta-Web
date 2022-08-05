@@ -33,6 +33,7 @@ namespace TKMaster.AulaEnsino.Web.UI.Controllers
         public IActionResult Index()
         {
             ViewBag.TipoPessoa = Util.Common.PopularComboTipoPessoa().OrderBy(x => x.Value);
+            ViewBag.SituacaoStatus = Util.Common.PopularComboSituacaoStatus().OrderBy(x => x.Value);
             return View();
         }
 
@@ -183,11 +184,10 @@ namespace TKMaster.AulaEnsino.Web.UI.Controllers
 
         #region Public Methods
 
-        [HttpGet]
-        public async Task<IActionResult> Pesquisar()
+        [HttpPost]
+        public async Task<IActionResult> Pesquisar(RequestBuscarFornecedor pesquisar)
         {
-            //RequestBuscarFornecedor pesquisar
-            var response = await _unitOfWork.FornecedorApp.ListarTodos();
+            var response = await _unitOfWork.FornecedorApp.BuscarFornecedores(pesquisar);
 
             var retorno = _mapper.Map<List<FornecedorViewModel>>(response?.Data.ToList() ?? new List<FornecedorDTO>());
 
